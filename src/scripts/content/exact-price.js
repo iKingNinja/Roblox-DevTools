@@ -1,9 +1,16 @@
 const calculateTax = (price) => Math.ceil(price * 30 / 100);
+let lastPriceField = null;
 
 const observer = new MutationObserver(() => {
     const priceField = document.querySelector("#priceTextField");
 
+    // Prevent adding duplicated event listeners
+    // Price input elements get regenerated when the page changes
+    if (lastPriceField === priceField) return;
+    
     if (priceField) {
+        lastPriceField = priceField;
+
         priceField.addEventListener("input", () => {
             // Using the formula <desired price> : <taxed price> = x : <desired price>
             // <desired price> * <desired price> = <taxed price> * x
